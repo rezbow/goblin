@@ -90,26 +90,6 @@ func WriteToFile(data []byte, path string) error {
 	return err
 }
 
-func (v Vault) Save(path string) error {
-	file, err := os.Create(path)
-	if err != nil {
-		return err
-	}
-	writer := bufio.NewWriter(file)
-	for label, pass := range v {
-		line := fmt.Sprintf("%s %s\n", label, pass)
-		_, err := writer.WriteString(line)
-		if err != nil {
-			return err
-		}
-	}
-	err = writer.Flush()
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 func VaultFromReader(r io.Reader, pass string) (Vault, error) {
 	vault := NewVault()
 	storage, err := io.ReadAll(r)
@@ -154,10 +134,6 @@ func VaultFromFile(path, pass string) (Vault, error) {
 var EXIT = errors.New("exit command")
 
 func (r *Repl) runCommand(line string) error {
-	// ADD LABEL PASSWORD
-	// DELETE LABEL
-	// EXIT
-	// SAVE filepath
 	parts := strings.Split(line, " ")
 	if len(parts) < 1 {
 		return errors.New("invalid command")
