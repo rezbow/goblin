@@ -1,4 +1,4 @@
-module github.com/rezbow/passly
+module github.com/rezbow/goblin
 
 go 1.24.4
 
